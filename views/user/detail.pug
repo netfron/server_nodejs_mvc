@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+
+  h1 User: #{user.user_name}
+  
+  div(style='margin-left:20px;margin-top:20px')
+
+    dl Id : #{user.user_id}
+    dl Name : #{user.user_name}
+    dl Password : *******
+
+  hr
+  p
+    a(href=user.url+'/update') Update user
+  p
+    a(href=user.url+'/delete') Delete user
