@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+
+  h1 #{title}
+          
+  form(method='POST' action='')
+    div.form-group
+      label(for='user_id') User Id:
+      input#user_id.form-control(type='text', placeholder='User Id' name='user_id' required='true' value=(undefined===user ? '' : user.user_id) )
+      
+      label(for='user_name') User Name:
+      input#user_name.form-control(type='text', placeholder='User Name' name='user_name' required='true' value=(undefined===user ? '' : user.user_name) )
+      
+      label(for='user_password') User Password:
+      input#user_password.form-control(type='password', placeholder='User Password' name='user_password' required='true' value=(undefined===user ? '' : user.user_password) )
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors 
+    ul
+      for error in errors
+        li!= error.msg

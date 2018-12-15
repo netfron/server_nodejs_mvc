@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+
+  h1 Delete User: #{user.user_name}
+  
+  p Do you really want to delete this User?
+  
+  form(method='POST' action='')
+    div.form-group
+      input#id.form-control(type='hidden',name='id', required='true', value=user._id )
+
+    button.btn.btn-primary(type='submit') Delete
