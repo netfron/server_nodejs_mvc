@@ -1,7 +1,6 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
@@ -9,6 +8,16 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var compression = require('compression');
 var helmet = require('helmet');
+var winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: './logs/error.log', level: 'error' }),
+    new winston.transports.File({ filename: './logs/combined.log' })
+  ]
+});
 
 // Create the Express application object
 var app = express();
@@ -30,7 +39,7 @@ app.set('view engine', 'pug');
 
 // Uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -54,6 +63,9 @@ app.use(function(err, req, res, next) {
   // Set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // add this line to include winston logging
+  logger.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
 
   // Render the error page
   res.status(err.status || 500);

@@ -11,7 +11,6 @@ exports.list = function(req, res, next) {
     .exec(function (err, list_users) {
       if (err) { return next(err); }
       // Successful, so render.
-      console.log(list_users);
       res.render('user/list', { title: 'User List', list_users:  list_users});
     });
 
@@ -32,7 +31,6 @@ exports.detail = function(req, res, next) {
             err.status = 404;
             return next(err);
         }
-        console.log(results.user);
         // Successful, so render.
         res.render('user/detail', { title: 'User Detail', user : results.user } );
     });
