@@ -45,11 +45,10 @@ exports.create_get = function(req, res, next) {
 
 exports.create_post = [
 
-    // Validate that the name field is not empty.
-    body('user_name', 'User name required').isLength({ min: 1 }).trim(),
-
-    // Sanitize (trim and escape) the name field.
+    body('user_name', 'User name required').isLength({ min: 4 }).trim(),
     sanitizeBody('user_name').trim().escape(),
+    body('user_password', 'User password is too short').isLength({ min: 8 }).trim(),
+    sanitizeBody('user_password').trim().escape(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {
@@ -68,7 +67,7 @@ exports.create_post = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render the form again with sanitized values/error messages.
-            res.render('form', { title: 'Create User', user: user, errors: errors.array()});
+            res.render('user/form', { title: 'Create User', user: user, errors: errors.array()});
         return;
         }
         else {
